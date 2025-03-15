@@ -1,16 +1,21 @@
 <h1>Latest News</h1>
 <div class="categories">
-  <button>Home</button>
+  <button (click)="getNewsByCategories('all')">Home</button>
+  <button (click)="getNewsByCategories('sports')">Sport</button>
+  <button (click)="getNewsByCategories('technology')">Technologies</button>
+  <button (click)="getNewsByCategories('health')">Medicine and health</button>
+  <button (click)="getNewsByCategories('business')">Business</button>
 </div>
 <div class="search-container">
-  <input type="text" id="searchQuery" placeholder="Enter search query...">
-  <button onclick="searchNews()">Search</button>
+  <input type="text" [(ngModel)]="search" id="searchQuery" placeholder="Enter search query...">
+  <button (click)="searchNews(search)">Search</button>
 </div>
 <div class="news-container" id="news">
-  <div class="news-item">
-    <img src="https://149366088.v2.pressablecdn.com/wp-content/uploads/2025/02/yaru-icon-tweak.jpg" alt="News Image">
-    <h3>Ubuntu 25.04 Yaru Theme Update Brings New Icons</h3>
-    <p>With Ubuntu 25.04 feature freeze now in effect the final licks of polish and paint have begun landing — including an update to Ubuntu's Yaru theme. The</p>
-    <a href="https://www.omgubuntu.co.uk/2025/03/ubuntu-25-04-yaru-theme-update-brings-new-icons" target="_blank">Read more</a>
+  <div class="news-item" *ngFor="let new of data">
+    <img [src]="new.image !== 'None' ? new.image : '../assets/default.jpg'">
+    <h3>{{new.title}}</h3>
+    <p>{{new.description}}</p>
+    <p>{{new.published}}</p>
+    <a [href]="new.url" target="_blank">Read more</a>
   </div>
 </div>
