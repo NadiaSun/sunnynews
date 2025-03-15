@@ -22,8 +22,8 @@ export class NewsService {
     )
   }
   serchNews(world: string): Observable<newsData[]> {
-    const newWorld: string = world.replaceAll(' ', '+')
-    return this.http.get<{news: newsData[]}>(`${environment.url}latest-news?keywords=${newWorld}`)
+    const newWorld: string = world.replaceAll(' ', '+AND+')
+    return this.http.get<{news: newsData[]}>(`${environment.url}search?keywords=${newWorld}`)
     .pipe(
         map(res => res.news),
         catchError(this.errors.bind(this))

@@ -10,6 +10,7 @@ import { categories, newsData } from 'src/environments/interface';
 export class AppComponent implements OnInit {
   public data: newsData[] = []
   public search: string = ''
+  keys = ["regional", "technology", "lifestyle", "business", "general", "programming", "science", "entertainment", "world", "sports", "finance", "academia", "politics", "health", "opinion", "food", "game", "fashion", "academic", "travel", "culture", "economy", "environment", "art", "music", "CS", "education", "television", "commodity", "movie", "entrepreneur", "review", "auto", "energy", "celebrity", "medical", "gadgets", "design", "security", "mobile", "estate", "funny"];
   constructor(private NewsService: NewsService ) {
 
   }
