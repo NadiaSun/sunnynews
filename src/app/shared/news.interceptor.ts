@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { KeyService } from './key.service';
 
@@ -16,12 +16,22 @@ export class NewsInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(request.url.includes(environment.url)) {
-      request = request.clone({
-        setParams: {
-          apiKey: environment.apiKey
-        }
-      })
-      return next.handle(request)
+      return this.KeyService.getNewApiKey().pipe(
+        switchMap(response => {
+          console.log(response)
+          request = request.clone({
+            setParams: {
+              apiKey: response.token
+            }
+          })
+
+          this.KeyService.usedApiKey(response.id).subscribe(res => {})
+
+          return next.handle(request)
+        })
+      )
+      
+      
     }
     return next.handle(request)
   }
