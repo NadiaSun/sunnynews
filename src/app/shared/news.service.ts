@@ -13,12 +13,14 @@ export class NewsService {
   ) { }
 
   getNews(path: categories): Observable<newsData[]> {
+    
     const category = path === 'all' ? '' : `category=${path}`
     return this.http.get<{news: newsData[]}>(
         `${environment.url}latest-news?${category}`
     )
     .pipe(
-        map(res => res.news)
+        map(res => res.news),
+        catchError(this.errors)
     )
   }
   serchNews(world: string): Observable<newsData[]> {
@@ -26,12 +28,12 @@ export class NewsService {
     return this.http.get<{news: newsData[]}>(`${environment.url}search?keywords=${newWorld}`)
     .pipe(
         map(res => res.news),
-        catchError(this.errors.bind(this))
+        catchError(this.errors)
     )
   }
 
   private errors(error: HttpErrorResponse): Observable<any> {
-    console.log(error)
+    console.log('Error', error)
     return throwError(error)
   }
 }

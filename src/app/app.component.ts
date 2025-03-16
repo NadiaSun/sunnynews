@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsService } from './shared/news.service';
 import { categories, newsData } from 'src/environments/interface';
+import { KeyService } from './shared/key.service';
 
 @Component({
   selector: 'app-root',
@@ -11,25 +12,34 @@ export class AppComponent implements OnInit {
   public data: newsData[] = []
   public search: string = ''
   keys = ["regional", "technology", "lifestyle", "business", "general", "programming", "science", "entertainment", "world", "sports", "finance", "academia", "politics", "health", "opinion", "food", "game", "fashion", "academic", "travel", "culture", "economy", "environment", "art", "music", "CS", "education", "television", "commodity", "movie", "entrepreneur", "review", "auto", "energy", "celebrity", "medical", "gadgets", "design", "security", "mobile", "estate", "funny"];
-  constructor(private NewsService: NewsService ) {
+  focusInput: boolean = false
+  
+  constructor(private NewsService: NewsService, private KeyService: KeyService ) {
 
   }
   ngOnInit(): void {
+    
   }
 
   getNewsByCategories(path: categories) {
-    this.NewsService.getNews(path).subscribe(response => {
-      this.data = response;
-      console.log(response)
-    })
+    this.NewsService.getNews(path).subscribe({
+      next: response => {
+        this.data = response;
+        console.log(response)
+      },
+      error: error => {console.log(error)}
+    } )
   }
   searchNews(world: string) {
     if(!world.trim()) {
       return
     }
-    this.NewsService.serchNews(world.trim()).subscribe(response => {
-      this.data = response;
-      console.log(response)
-    })
+    this.NewsService.serchNews(world.trim()).subscribe({
+      next: response => {
+        this.data = response;
+        console.log(response)
+      },
+      error: error => {console.log(error)}
+    } )
   }
 }

@@ -3,27 +3,26 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { KeyService } from './key.service';
 
 @Injectable()
 export class NewsInterceptor implements HttpInterceptor {
-
-  constructor() {}
+  constructor(private KeyService: KeyService ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(request.url.includes(environment.url)) {
-      const newRequest = request.clone({
+      request = request.clone({
         setParams: {
           apiKey: environment.apiKey
         }
       })
-      console.log('newRequest')
-      return next.handle(newRequest);
+      return next.handle(request)
     }
-    console.log('request')
-    return next.handle(request);
+    return next.handle(request)
   }
 }
