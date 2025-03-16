@@ -1,7 +1,8 @@
-<div class="search-container">
-    <input type="text" [(ngModel)]="search">
-    <button (click)="searchNews(search)">Search</button>
-    <ul id="suggestions" class="suggestions">
-        <li *ngFor="let key of keys | searchKeys:search" (click)="search = key[0].toUpperCase()+key.slice(1)">{{key | titlecase}}</li>
-    </ul>
-</div>
+<input type="text" [(ngModel)]="search">
+<button (click)="searchNews(search)">Search</button>
+<ul class="suggestions">
+    <li 
+        *ngFor="let key of keys | searchKeys:search"
+        (click)="upperSearch(key)"
+    >{{key | titlecase}}</li>
+</ul>

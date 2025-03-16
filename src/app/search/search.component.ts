@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { NewsService } from '../shared/news.service';
-import { newsData } from 'src/environments/interface';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { keys } from '../shared/constants';
 
 @Component({
   selector: 'app-search',
@@ -8,20 +7,19 @@ import { newsData } from 'src/environments/interface';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-  public search: string = ''
-  keys = ["regional", "technology", "lifestyle", "business", "general", "programming", "science", "entertainment", "world", "sports", "finance", "academia", "politics", "health", "opinion", "food", "game", "fashion", "academic", "travel", "culture", "economy", "environment", "art", "music", "CS", "education", "television", "commodity", "movie", "entrepreneur", "review", "auto", "energy", "celebrity", "medical", "gadgets", "design", "security", "mobile", "estate", "funny"];
+  @Output() searchNewsChange: EventEmitter<string> = new EventEmitter<string>();
+  public search: string = '';
+  public keys: string[] = keys;
 
-  constructor(private newsService: NewsService) {}
-
-  searchNews(world: string) {
+  searchNews(world: string): void {
     if(!world.trim()) {
-      return
+      return;
     }
-    this.newsService.serchNews(world.trim()).subscribe({
-      next: response => {
-        this.newsService.d.next(response)
-      },
-      error: error => {console.log(error)}
-    } )
+
+    this.searchNewsChange.emit(world.trim());
+  }
+
+  upperSearch(searchNew: string): void {
+    this.search = searchNew[0].toUpperCase()+searchNew.slice(1);
   }
 }

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { categories, newsData } from 'src/environments/interface';
-import { NewsService } from '../shared/news.service';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CATEGORIES, categoriesInfo } from 'src/environments/interface';
 
 @Component({
   selector: 'app-categories',
@@ -8,17 +7,17 @@ import { NewsService } from '../shared/news.service';
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent {
-  constructor(
-    private newsService: NewsService
-  ) {
+  @Output() categoryNews: EventEmitter<CATEGORIES> = new EventEmitter<CATEGORIES>();
 
-  }
-  getNewsByCategories(path: categories) {
-    this.newsService.getNews(path).subscribe({
-      next: response => {
-        this.newsService.d.next(response);
-      },
-      error: error => {console.log(error)}
-    } )
+  public categories: categoriesInfo[] = [
+    {id: 'all', title: 'Home'},
+    {id: 'sports', title: 'Sport'},
+    {id: 'business', title: 'Business'},
+    {id: 'health', title: 'Medicine and health'},
+    {id: 'technology', title: 'Technologies'}
+  ]
+
+  getNewsByCategories(category: CATEGORIES): void {
+    this.categoryNews.emit(category);
   }
 }

@@ -1,6 +1,12 @@
 <h1>Latest News</h1>
-<app-categories ></app-categories>
-<app-search></app-search>
+<app-categories (categoryNews)="updateNewsCategory($event)"></app-categories>
+<app-search (searchNewsChange)="updateNewsSearch($event)"></app-search>
 <div class="news-container">
-  <app-news-item *ngFor="let newData of data" [new]="newData"></app-news-item>  
+  <app-news-item *ngFor="let newData of data$ | async" [news]="newData"></app-news-item>  
+</div>
+<div class="message">
+  <p>{{message$ | async}}>
+</div>
+<div class="preload" *ngIf="loading">
+  <div class="loader"></div>
 </div>

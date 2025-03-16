@@ -8,6 +8,12 @@ export interface Environment {
 
 export type categories = 'sports' | 'all' | 'health' | 'technology' | 'business'
 
+export type CATEGORIES = 'sports' | 'all' | 'health' | 'technology' | 'business';
+export type categoriesInfo = {
+    id: CATEGORIES,
+    title: string
+};
+
 export interface newsData {
     id: string,
     title: string,

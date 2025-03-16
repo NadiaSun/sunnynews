@@ -1,7 +1,4 @@
-<div class="categories">
-    <button (click)="getNewsByCategories('all')">Home</button>
-    <button (click)="getNewsByCategories('sports')">Sport</button>
-    <button (click)="getNewsByCategories('technology')">Technologies</button>
-    <button (click)="getNewsByCategories('health')">Medicine and health</button>
-    <button (click)="getNewsByCategories('business')">Business</button>
-</div>
+<button
+    *ngFor="let category of categories"
+    (click)="getNewsByCategories(category.id)"
+>{{category.title}}</button>

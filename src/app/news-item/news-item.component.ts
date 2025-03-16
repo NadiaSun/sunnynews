@@ -7,5 +7,5 @@ import { newsData } from 'src/environments/interface';
   styleUrls: ['./news-item.component.css']
 })
 export class NewsItemComponent {
-  @Input() new!: newsData;
+  @Input() news!: newsData;
 }

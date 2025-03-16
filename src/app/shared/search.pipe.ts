@@ -9,7 +9,7 @@ export class SearchPipe implements PipeTransform {
     if(value.trim()) {
       return keys.filter(key => key.includes(value.trim().toLowerCase()) && value.trim().toLowerCase() !== key);
     }
-    return []
-  }
 
+    return [];
+  }
 }

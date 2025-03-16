@@ -1,40 +1,77 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, Subject, catchError, map, throwError } from 'rxjs';
+import { Observable, Subject, catchError, map, of, tap} from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { categories, newsData } from 'src/environments/interface';
+import { CATEGORIES, newsData } from 'src/environments/interface';
+import { NewsStorageService } from './news-storage.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
-  public d: Subject<newsData[]> = new Subject<newsData[]>()
-
+  private message$: Subject<string> = new Subject<string>()
+  
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private newsStorage: NewsStorageService
+  ) {}
 
-  getNews(path: categories): Observable<newsData[]> {
-    
-    const category = path === 'all' ? '' : `category=${path}`
-    return this.http.get<{news: newsData[]}>(
-        `${environment.url}latest-news?${category}`
-    )
+  getNews(category: CATEGORIES): Observable<newsData[]> {
+    this.newsStorage.setNews([]);
+
+    return this.http.get<{news: newsData[]}>(`${environment.url}latest-news?${this.getCategory(category)}`)
     .pipe(
         map(res => res.news),
+        tap(res => {
+          this.setMessage('');
+
+          if(res.length === 0) {
+            this.setMessage('Sorry, there are no news items in this category.');
+          }
+
+          this.newsStorage.setNews(res);
+        }),
         catchError(this.errors)
     )
   }
-  serchNews(world: string): Observable<newsData[]> {
-    const newWorld: string = world.replaceAll(' ', '+AND+')
-    return this.http.get<{news: newsData[]}>(`${environment.url}search?keywords=${newWorld}`)
+
+  serchNews(world: string, category?: CATEGORIES): Observable<newsData[]> {
+    this.newsStorage.setNews([]);
+
+    const newWorld: string = world.replaceAll(' ', '+AND+');
+
+    return this.http.get<{news: newsData[]}>(`${environment.url}search?keywords=${newWorld}${this.getCategory(category || 'all')}`)
     .pipe(
         map(res => res.news),
+        tap(res => {
+          this.setMessage('');
+
+          if(res.length === 0) {
+            this.setMessage('Sorry, there is no news for this request.');
+          }
+
+          this.newsStorage.setNews(res);
+        }),
         catchError(this.errors)
     )
   }
 
   private errors(error: HttpErrorResponse): Observable<any> {
-    console.log('Error', error)
-    return throwError(error)
+    this.setMessage('Unknown error');
+
+    return of([]);
+  }
+
+  getMessage(): Observable<string> {
+    return this.message$.asObservable();
+  }
+
+  setMessage(message: string): void {
+    console.log(message);
+    this.message$.next(message);
+  }
+
+  private getCategory(category: CATEGORIES): string {
+    return category === 'all' ? '' : `category=${category}`;
   }
 }
