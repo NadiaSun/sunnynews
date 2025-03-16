@@ -9,10 +9,14 @@ import { KeyService } from './shared/key.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public data: newsData[] = []
   constructor(public newsService: NewsService) {}
   ngOnInit(): void {
+    this.newsService.d.subscribe(res => {
+      this.data = res
+    })
     this.newsService.getNews('all').subscribe(response => {
-      this.newsService.data = response
+      this.newsService.d.next(response)
     })
   }
 }

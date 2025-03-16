@@ -19,8 +19,7 @@ export class SearchComponent {
     }
     this.newsService.serchNews(world.trim()).subscribe({
       next: response => {
-        this.newsService.data = response;
-        console.log(response)
+        this.newsService.d.next(response)
       },
       error: error => {console.log(error)}
     } )

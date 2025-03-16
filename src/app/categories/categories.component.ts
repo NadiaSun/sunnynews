@@ -16,7 +16,7 @@ export class CategoriesComponent {
   getNewsByCategories(path: categories) {
     this.newsService.getNews(path).subscribe({
       next: response => {
-        this.newsService.data = response;
+        this.newsService.d.next(response);
       },
       error: error => {console.log(error)}
     } )
