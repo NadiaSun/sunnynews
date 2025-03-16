@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { NewsService } from './shared/news.service';
-import { CATEGORIES, newsData } from 'src/environments/interface';
-import { NewsStorageService } from './shared/news-storage.service';
+import { NewsService } from './shared/services/news.service';
+import { CategoriesType, newsData } from 'src/app/shared/interfaces/interface';
+import { NewsStorageService } from './shared/services/news-storage.service';
 import { finalize, Observable } from 'rxjs';
-import { keys } from './shared/constants';
+import { categoriesName } from './shared/constants/constants';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   public data$!: Observable<newsData[]>;
   public message$!: Observable<string>;
   public loading: boolean = false;
   query: string = '';
-  category: CATEGORIES = 'all';
+  category: CategoriesType = 'all';
 
-  constructor(private newsService: NewsService, private newsStorage: NewsStorageService) {}
+  constructor(
+    private newsService: NewsService,
+    private newsStorage: NewsStorageService
+  ) {}
 
   ngOnInit(): void {
     this.data$ = this.newsStorage.getNews();
@@ -25,32 +28,38 @@ export class AppComponent implements OnInit {
     this.loadNews();
   }
 
-  updateNewsCategory(category: CATEGORIES): void {
+  public updateNewsCategory(category: CategoriesType): void {
     this.category = category;
     this.query = '';
     this.loadNews();
   }
 
-  updateNewsSearch(search: string): void {
+  public updateNewsSearch(search: string): void {
     this.query = search;
-    if(keys.includes(search.toLowerCase())) {
+    if (categoriesName.includes(search.toLowerCase())) {
       this.query = '';
-      this.category = search.toLowerCase() as CATEGORIES;
+      this.category = search.toLowerCase() as CategoriesType;
     }
     this.loadNews();
   }
 
-  loadNews(): void {
+  private loadNews(): void {
     this.newsService.setMessage('');
     this.loading = true;
-    this.getNews().pipe(
-      finalize(() => this.loading = false)
-    ).subscribe();
+    this.getNews()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((res) => {
+        if (res.length === 0) {
+          this.newsService.setMessage(
+            'Sorry, there is no news for this request.'
+          );
+        }
+      });
   }
 
-  getNews(): Observable<newsData[]> {
-    if(this.query) {
-      if(this.category !== 'all') {
+  private getNews(): Observable<newsData[]> {
+    if (this.query) {
+      if (this.category !== 'all') {
         return this.newsService.serchNews(this.query, this.category);
       }
       return this.newsService.serchNews(this.query);

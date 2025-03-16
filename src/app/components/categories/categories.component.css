@@ -1,0 +1,23 @@
+:host {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+:host button {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+  unicode-bidi: isolate;
+}
+
+:host button:hover {
+  background: #1976d2;
+}

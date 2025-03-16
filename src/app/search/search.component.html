@@ -1,8 +1,0 @@
-<input type="text" [(ngModel)]="search">
-<button (click)="searchNews(search)">Search</button>
-<ul class="suggestions">
-    <li 
-        *ngFor="let key of keys | searchKeys:search"
-        (click)="upperSearch(key)"
-    >{{key | titlecase}}</li>
-</ul>

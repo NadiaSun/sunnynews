@@ -2,10 +2,13 @@
 <app-categories (categoryNews)="updateNewsCategory($event)"></app-categories>
 <app-search (searchNewsChange)="updateNewsSearch($event)"></app-search>
 <div class="news-container">
-  <app-news-item *ngFor="let newData of data$ | async" [news]="newData"></app-news-item>  
+  <app-news-item
+    *ngFor="let newData of data$ | async"
+    [news]="newData"
+  ></app-news-item>
 </div>
 <div class="message" *ngIf="message$ | async as message">
-  <p>{{message}}</p>
+  <p>{{ message }}</p>
 </div>
 <div class="preload" *ngIf="loading">
   <div class="loader"></div>
