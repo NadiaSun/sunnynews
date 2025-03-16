@@ -1,7 +1,7 @@
 import { Environment } from "./interface";
 
 export const environment: Environment = {
-    apiKey: '76813f1c35d144b6907b95df31c4ee55',
+    apiKey: 'BFQuOO6VIpsUjbRRrMkl_PVJQtWbKRBqiVogAcdZi8X7imWP',
     production: false,
     url: 'https://api.currentsapi.services/v1/latest-news',
     urlNewKey: 'https://pxbikulnvklfxjbjmwgb.supabase.co',
