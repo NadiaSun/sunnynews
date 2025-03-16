@@ -1,0 +1,7 @@
+<div class="news-item">
+    <img [src]="new.image" *ngIf="new.image !== 'None'">
+    <h3>{{new.title}}</h3>
+    <p>{{new.description}}</p>
+    <p>{{new.published}}</p>
+    <a [href]="new.url" target="_blank">Read more</a>
+  </div>

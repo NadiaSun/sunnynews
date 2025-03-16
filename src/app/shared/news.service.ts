@@ -7,6 +7,7 @@ import { categories, newsData } from 'src/environments/interface';
   providedIn: 'root'
 })
 export class NewsService {
+  public data: newsData[] = []
 
   constructor(
     private http: HttpClient

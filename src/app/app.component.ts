@@ -9,37 +9,10 @@ import { KeyService } from './shared/key.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public data: newsData[] = []
-  public search: string = ''
-  keys = ["regional", "technology", "lifestyle", "business", "general", "programming", "science", "entertainment", "world", "sports", "finance", "academia", "politics", "health", "opinion", "food", "game", "fashion", "academic", "travel", "culture", "economy", "environment", "art", "music", "CS", "education", "television", "commodity", "movie", "entrepreneur", "review", "auto", "energy", "celebrity", "medical", "gadgets", "design", "security", "mobile", "estate", "funny"];
-  focusInput: boolean = false
-  
-  constructor(private NewsService: NewsService, private KeyService: KeyService ) {
-
-  }
+  constructor(public newsService: NewsService) {}
   ngOnInit(): void {
-    
-  }
-
-  getNewsByCategories(path: categories) {
-    this.NewsService.getNews(path).subscribe({
-      next: response => {
-        this.data = response;
-        console.log(response)
-      },
-      error: error => {console.log(error)}
-    } )
-  }
-  searchNews(world: string) {
-    if(!world.trim()) {
-      return
-    }
-    this.NewsService.serchNews(world.trim()).subscribe({
-      next: response => {
-        this.data = response;
-        console.log(response)
-      },
-      error: error => {console.log(error)}
-    } )
+    this.newsService.getNews('all').subscribe(response => {
+      this.newsService.data = response
+    })
   }
 }

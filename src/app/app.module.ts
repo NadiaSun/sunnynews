@@ -7,6 +7,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NewsInterceptor } from './shared/news.interceptor';
 import { SearchPipe } from './shared/search.pipe';
+import { NewsItemComponent } from './news-item/news-item.component';
+import { SearchComponent } from './search/search.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -17,7 +20,10 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [
     AppComponent,
-    SearchPipe
+    SearchPipe,
+    NewsItemComponent,
+    SearchComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
