@@ -20,7 +20,7 @@ export class KeyService {
     .pipe(
       map(res => res[0]),
       catchError(this.errors)
-    )
+    );
   }
 
   usedApiKey(id: number): Observable<any> {
@@ -32,7 +32,7 @@ export class KeyService {
     return this.http.patch(`${environment.urlNewKey}/rest/v1/tokens?id=eq.${id}&apikey=${environment.newApiKey}`, {used: true, issued_at: new Date()}, {headers})
     .pipe(
       catchError(this.errors)
-    )
+    );
   }
 
   private errors(error: HttpErrorResponse): Observable<any> {

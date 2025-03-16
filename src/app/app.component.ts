@@ -27,11 +27,13 @@ export class AppComponent implements OnInit {
   updateNewsCategory(category: CATEGORIES): void {
     this.category = category;
     this.query = '';
+    this.newsService.setMessage('');
     this.loadNews();
   }
 
   updateNewsSearch(search: string): void {
     this.query = search;
+    this.newsService.setMessage('');
     this.loadNews();
   }
 

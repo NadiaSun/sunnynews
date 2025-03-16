@@ -9,7 +9,7 @@ import { NewsStorageService } from './news-storage.service';
   providedIn: 'root'
 })
 export class NewsService {
-  private message$: Subject<string> = new Subject<string>()
+  private message$: Subject<string> = new Subject<string>();
   
   constructor(
     private http: HttpClient,
@@ -31,8 +31,8 @@ export class NewsService {
 
           this.newsStorage.setNews(res);
         }),
-        catchError(this.errors)
-    )
+        catchError(error => this.errors(error))
+    );
   }
 
   serchNews(world: string, category?: CATEGORIES): Observable<newsData[]> {
@@ -40,7 +40,7 @@ export class NewsService {
 
     const newWorld: string = world.replaceAll(' ', '+AND+');
 
-    return this.http.get<{news: newsData[]}>(`${environment.url}search?keywords=${newWorld}${this.getCategory(category || 'all')}`)
+    return this.http.get<{news: newsData[]}>(`${environment.url}search?${this.getCategory(category || 'all')}keywords=${newWorld}`)
     .pipe(
         map(res => res.news),
         tap(res => {
@@ -52,8 +52,8 @@ export class NewsService {
 
           this.newsStorage.setNews(res);
         }),
-        catchError(this.errors)
-    )
+        catchError(error => this.errors(error))
+    );
   }
 
   private errors(error: HttpErrorResponse): Observable<any> {
@@ -67,11 +67,10 @@ export class NewsService {
   }
 
   setMessage(message: string): void {
-    console.log(message);
     this.message$.next(message);
   }
 
   private getCategory(category: CATEGORIES): string {
-    return category === 'all' ? '' : `category=${category}`;
+    return category === 'all' ? '' : `category=${category}&`;
   }
 }
