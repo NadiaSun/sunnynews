@@ -6,9 +6,7 @@ export interface Environment {
     newApiKey: string
 }
 
-export type categories = 'sports' | 'all' | 'health' | 'technology' | 'business'
-
-export type CATEGORIES = 'sports' | 'all' | 'health' | 'technology' | 'business';
+export type CATEGORIES = 'all' | 'regional' | 'technology' | 'lifestyle' | 'business' | 'general' | 'programming' | 'science' | 'entertainment' | 'world' | 'sports' | 'finance' | 'academia' | 'politics' | 'health' | 'opinion' | 'food' | 'game' | 'fashion' | 'academic' | 'travel' | 'culture' | 'economy' | 'environment' | 'art' | 'music' | 'CS' | 'education' | 'television' | 'commodity' | 'movie' | 'entrepreneur' | 'review' | 'auto' | 'energy' | 'celebrity' | 'medical' | 'gadgets' | 'design' | 'security' | 'mobile' | 'estate' | 'funny';
 export type categoriesInfo = {
     id: CATEGORIES,
     title: string
