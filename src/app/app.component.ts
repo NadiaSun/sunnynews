@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.data$ = this.newsStorage.getNews();
     this.message$ = this.newsService.getMessage();
-    this.newsService.setMessage('Test')
-    // this.loadNews();
+    this.newsService.setMessage('Test');
+    this.loadNews();
   }
 
   updateNewsCategory(category: CATEGORIES): void {
