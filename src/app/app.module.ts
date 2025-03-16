@@ -5,17 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NewsInterceptor } from './shared/news.interceptor';
-import { SearchPipe } from './shared/search.pipe';
-import { NewsItemComponent } from './news-item/news-item.component';
-import { SearchComponent } from './search/search.component';
-import { CategoriesComponent } from './categories/categories.component';
+import { NewsInterceptor } from './shared/interceptors/news.interceptor';
+import { SearchPipe } from './shared/pipes/search.pipe';
+import { NewsItemComponent } from './components/news-item/news-item.component';
+import { SearchComponent } from './components/search/search.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
-  useClass: NewsInterceptor
-}
+  useClass: NewsInterceptor,
+};
 
 @NgModule({
   declarations: [
@@ -23,15 +23,10 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SearchPipe,
     NewsItemComponent,
     SearchComponent,
-    CategoriesComponent
+    CategoriesComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [INTERCEPTOR_PROVIDER],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

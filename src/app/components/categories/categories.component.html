@@ -1,0 +1,6 @@
+<button
+  *ngFor="let category of categories"
+  (click)="getNewsByCategories(category.id)"
+>
+  {{ category.title }}
+</button>
