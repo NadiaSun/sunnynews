@@ -5,7 +5,7 @@
   <app-news-item *ngFor="let newData of data$ | async" [news]="newData"></app-news-item>  
 </div>
 <div class="message">
-  <p>{{message$ | async}}>
+  <p>{{message$ | async}}</p>
 </div>
 <div class="preload" *ngIf="loading">
   <div class="loader"></div>
